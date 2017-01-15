@@ -12,6 +12,13 @@
 		119A0B3B1E2D719E005D769D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B361E2D719E005D769D /* main.swift */; };
 		119A0B3C1E2D719E005D769D /* Scanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B371E2D719E005D769D /* Scanner+Swift.swift */; };
 		119A0B3D1E2D719E005D769D /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* ShellHelper.swift */; };
+		119A0B5B1E2D7443005D769D /* GitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B591E2D7443005D769D /* GitTests.swift */; };
+		119A0B5C1E2D7443005D769D /* ShellhelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */; };
+		119A0B5D1E2D746B005D769D /* Coverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B341E2D719E005D769D /* Coverage.swift */; };
+		119A0B5E1E2D746B005D769D /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B351E2D719E005D769D /* Git.swift */; };
+		119A0B5F1E2D746B005D769D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B361E2D719E005D769D /* main.swift */; };
+		119A0B601E2D746B005D769D /* Scanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B371E2D719E005D769D /* Scanner+Swift.swift */; };
+		119A0B611E2D746B005D769D /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* ShellHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,10 +39,21 @@
 		119A0B361E2D719E005D769D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		119A0B371E2D719E005D769D /* Scanner+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Scanner+Swift.swift"; sourceTree = "<group>"; };
 		119A0B381E2D719E005D769D /* ShellHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellHelper.swift; sourceTree = "<group>"; };
+		119A0B501E2D73DF005D769D /* DiffCoverageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffCoverageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		119A0B541E2D73DF005D769D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		119A0B591E2D7443005D769D /* GitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitTests.swift; sourceTree = "<group>"; };
+		119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellhelperTests.swift; sourceTree = "<group>"; };
 		11B90B901E29845C00639D25 /* DiffCoverage */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DiffCoverage; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		119A0B4D1E2D73DF005D769D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		11B90B8D1E29845C00639D25 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,10 +64,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		119A0B511E2D73DF005D769D /* DiffCoverageTests */ = {
+			isa = PBXGroup;
+			children = (
+				119A0B541E2D73DF005D769D /* Info.plist */,
+				119A0B581E2D7443005D769D /* Unit */,
+			);
+			path = DiffCoverageTests;
+			sourceTree = "<group>";
+		};
+		119A0B581E2D7443005D769D /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				119A0B591E2D7443005D769D /* GitTests.swift */,
+				119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
 		11B90B871E29845C00639D25 = {
 			isa = PBXGroup;
 			children = (
 				11B90B921E29845C00639D25 /* DiffCoverage */,
+				119A0B511E2D73DF005D769D /* DiffCoverageTests */,
 				11B90B911E29845C00639D25 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				11B90B901E29845C00639D25 /* DiffCoverage */,
+				119A0B501E2D73DF005D769D /* DiffCoverageTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,6 +115,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		119A0B4F1E2D73DF005D769D /* DiffCoverageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 119A0B551E2D73DF005D769D /* Build configuration list for PBXNativeTarget "DiffCoverageTests" */;
+			buildPhases = (
+				119A0B4C1E2D73DF005D769D /* Sources */,
+				119A0B4D1E2D73DF005D769D /* Frameworks */,
+				119A0B4E1E2D73DF005D769D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DiffCoverageTests;
+			productName = DiffCoverageTests;
+			productReference = 119A0B501E2D73DF005D769D /* DiffCoverageTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		11B90B8F1E29845C00639D25 /* DiffCoverage */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11B90B971E29845C00639D25 /* Build configuration list for PBXNativeTarget "DiffCoverage" */;
@@ -105,6 +160,10 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Paul Samuels";
 				TargetAttributes = {
+					119A0B4F1E2D73DF005D769D = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					11B90B8F1E29845C00639D25 = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 0820;
@@ -125,9 +184,20 @@
 			projectRoot = "";
 			targets = (
 				11B90B8F1E29845C00639D25 /* DiffCoverage */,
+				119A0B4F1E2D73DF005D769D /* DiffCoverageTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		119A0B4E1E2D73DF005D769D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		11B90BAF1E2ACDD900639D25 /* Swiftlint */ = {
@@ -147,6 +217,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		119A0B4C1E2D73DF005D769D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				119A0B5E1E2D746B005D769D /* Git.swift in Sources */,
+				119A0B5F1E2D746B005D769D /* main.swift in Sources */,
+				119A0B601E2D746B005D769D /* Scanner+Swift.swift in Sources */,
+				119A0B5D1E2D746B005D769D /* Coverage.swift in Sources */,
+				119A0B5C1E2D7443005D769D /* ShellhelperTests.swift in Sources */,
+				119A0B5B1E2D7443005D769D /* GitTests.swift in Sources */,
+				119A0B611E2D746B005D769D /* ShellHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		11B90B8C1E29845C00639D25 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -162,6 +246,32 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		119A0B561E2D73DF005D769D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = DiffCoverageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paul-samuels.DiffCoverageTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		119A0B571E2D73DF005D769D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = DiffCoverageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paul-samuels.DiffCoverageTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		11B90B951E29845C00639D25 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -274,6 +384,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		119A0B551E2D73DF005D769D /* Build configuration list for PBXNativeTarget "DiffCoverageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				119A0B561E2D73DF005D769D /* Debug */,
+				119A0B571E2D73DF005D769D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		11B90B8B1E29845C00639D25 /* Build configuration list for PBXProject "DiffCoverage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
