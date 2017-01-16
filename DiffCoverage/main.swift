@@ -8,15 +8,18 @@
 
 import Foundation
 
+let defaults = UserDefaults.standard
+
 guard
-    let commitRange = UserDefaults.standard.string(forKey: "commit-range"),
-    let executable  = UserDefaults.standard.string(forKey: "executable"),
-    let profdata    = UserDefaults.standard.string(forKey: "profdata") else {
+    let commitRange = defaults.string(forKey: "commit-range"),
+    let executable  = defaults.string(forKey: "executable"),
+    let profdata    = defaults.string(forKey: "profdata") else {
         print("Usage: diff-coverage -commit-range <sha..sha> -executable <path> -profdata <path>")
         exit(EXIT_FAILURE)
 }
 
-let diffSet = Git().calculateModifiedLines(for: commitRange)
+let sourceRoot = defaults.string(forKey: "source-root")
+let diffSet = Git(sourceRoot: sourceRoot).calculateModifiedLines(for: commitRange)
 let coverage = Coverage(executable: executable, profdata: profdata)
 let uncoveredBlocks = coverage.filter(fileChanges: diffSet)
 

@@ -17,9 +17,11 @@ struct Git {
     typealias SHA         = String
     
     let invoker: InvokerType
+    let sourceRoot: String?
     
-    init(invoker: @escaping InvokerType = shell) {
-        self.invoker = invoker
+    init(invoker: @escaping InvokerType = shell, sourceRoot: String? = nil) {
+        self.invoker    = invoker
+        self.sourceRoot = sourceRoot
     }
     
     func calculateModifiedLines(for range: CommitRange) -> DiffSet {
@@ -27,7 +29,15 @@ struct Git {
         
         var changedLinesByFile: DiffSet = [:]
         
-        filesChanged(in: range).forEach { fileName in
+        let fileNames: [String]
+        
+        if let sourceRoot = sourceRoot {
+            fileNames = filesChanged(in: range).filter({ $0.hasPrefix(sourceRoot) })
+        } else {
+            fileNames = filesChanged(in: range)
+        }
+        
+        fileNames.forEach { fileName in
             let updatedLines = self.lineInformation(for: fileName, in: commitSHAs).map({
                 $0.line
             })
