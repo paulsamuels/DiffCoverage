@@ -16,18 +16,19 @@ class GitTests: XCTestCase {
         
         let git = Git(invoker: invocationRecorder.shell)
         
-        let actual = git.calculateModifiedLines(for: "abcdef..mnopqr")
-            
-            if invocationRecorder.unexpectedInvocations.count > 0 {
-                XCTFail(invocationRecorder.unexpectedInvocations.joined(separator: ", "))
-            }
-            
-            let expected = [
-                "SomeProject/Models/Car.swift" : Set([11, 13]),
-                "SomeProject/Models/Bike.swift" : Set([11, 13, 15]),
+        let (lineCount, actual) = git.calculateModifiedLines(for: "abcdef..mnopqr")
+        
+        if invocationRecorder.unexpectedInvocations.count > 0 {
+            XCTFail(invocationRecorder.unexpectedInvocations.joined(separator: ", "))
+        }
+        
+        let expected = [
+            "SomeProject/Models/Car.swift" : Set([11, 13]),
+            "SomeProject/Models/Bike.swift" : Set([11, 13, 15]),
             ]
-            
-            XCTAssertEqual(expected, actual)
+        
+        XCTAssertEqual(expected, actual)
+        XCTAssertEqual(5, lineCount)
         
     }
     
@@ -104,7 +105,7 @@ class GitTests: XCTestCase {
                 "\t    let make: String",
                 "ghijklzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 15 15",
                 "\t}",
-            ]
+                ]
         )
         
         invocationRecorder.expect(
@@ -127,7 +128,7 @@ class GitTests: XCTestCase {
                 "\t    let make: String",
                 "notacommitwithintherangeweareinterestedin 15 15",
                 "\t}",
-            ]
+                ]
         )
         //swiftlint:enable line_length
         

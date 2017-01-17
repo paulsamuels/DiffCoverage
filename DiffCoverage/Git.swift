@@ -24,7 +24,7 @@ struct Git {
         self.sourceRoot = sourceRoot
     }
     
-    func calculateModifiedLines(for range: CommitRange) -> DiffSet {
+    func calculateModifiedLines(for range: CommitRange) -> (lineCount: Int, changes: DiffSet) {
         let commitSHAs = shas(for: range)
         
         var changedLinesByFile: DiffSet = [:]
@@ -52,7 +52,10 @@ struct Git {
             }
         }
         
-        return changedLinesByFile
+        return (
+            lineCount: changedLinesByFile.map({ $0.value.count }).reduce(0, +),
+            changes: changedLinesByFile
+        )
     }
 }
 

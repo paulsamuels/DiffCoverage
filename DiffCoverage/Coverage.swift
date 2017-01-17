@@ -11,8 +11,9 @@ import Foundation
 struct Coverage {
     let executable: String
     let profdata: String
+    typealias Result = (lineCount: Int, uncoveredChanges: [String : Any])
     
-    func filter(fileChanges: [String : Set<Int>]) -> [String : Any] {
+    func filter(fileChanges: [String : Set<Int>]) -> Result {
         let keys = Set(fileChanges.keys)
         
         //swiftlint:disable:next force_try
@@ -60,7 +61,16 @@ struct Coverage {
             }
         }
         
-        return JSONRepresentation
+        let lineCount = uncoveredBlocks.flatMap({
+            $0.value
+        }).reduce(0) { (accumulator, block) -> Int in
+            return accumulator + (block.end - block.start) + 1
+        }
+        
+        return (
+            lineCount: lineCount,
+            uncoveredChanges: JSONRepresentation
+        )
     }
     
 }
