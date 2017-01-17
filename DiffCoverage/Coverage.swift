@@ -34,7 +34,8 @@ struct Coverage {
             
             guard
                 let currentFileName = currentFileName,
-                let newBlock = UncoveredBlock(rawValue: line) else {
+                let newBlock = UncoveredBlock(rawValue: line),
+                fileChanges[currentFileName]?.contains(newBlock.start) == true else {
                     return
             }
             
