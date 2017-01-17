@@ -19,6 +19,8 @@
 		119A0B5F1E2D746B005D769D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B361E2D719E005D769D /* main.swift */; };
 		119A0B601E2D746B005D769D /* Scanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B371E2D719E005D769D /* Scanner+Swift.swift */; };
 		119A0B611E2D746B005D769D /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* ShellHelper.swift */; };
+		119A0BAC1E2EB018005D769D /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0BAB1E2EB018005D769D /* Info.swift */; };
+		119A0BAD1E2EB65F005D769D /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0BAB1E2EB018005D769D /* Info.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +45,7 @@
 		119A0B541E2D73DF005D769D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		119A0B591E2D7443005D769D /* GitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitTests.swift; sourceTree = "<group>"; };
 		119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellhelperTests.swift; sourceTree = "<group>"; };
+		119A0BAB1E2EB018005D769D /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		11B90B901E29845C00639D25 /* DiffCoverage */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DiffCoverage; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -105,6 +108,7 @@
 			children = (
 				119A0B341E2D719E005D769D /* Coverage.swift */,
 				119A0B351E2D719E005D769D /* Git.swift */,
+				119A0BAB1E2EB018005D769D /* Info.swift */,
 				119A0B361E2D719E005D769D /* main.swift */,
 				119A0B371E2D719E005D769D /* Scanner+Swift.swift */,
 				119A0B381E2D719E005D769D /* ShellHelper.swift */,
@@ -136,6 +140,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11B90B971E29845C00639D25 /* Build configuration list for PBXNativeTarget "DiffCoverage" */;
 			buildPhases = (
+				119A0BA71E2EA3E4005D769D /* Insert commit info */,
 				11B90B8C1E29845C00639D25 /* Sources */,
 				11B90B8D1E29845C00639D25 /* Frameworks */,
 				11B90B8E1E29845C00639D25 /* CopyFiles */,
@@ -200,6 +205,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		119A0BA71E2EA3E4005D769D /* Insert commit info */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Insert commit info";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cat > $SRCROOT/build_info.plist << EOD\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n    <dict>\n        <key>GIT_SHA</key>\n        <string>$(git rev-parse HEAD)</string>\n    </dict>\n</plist>\nEOD";
+		};
 		11B90BAF1E2ACDD900639D25 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				119A0B5E1E2D746B005D769D /* Git.swift in Sources */,
+				119A0BAD1E2EB65F005D769D /* Info.swift in Sources */,
 				119A0B5F1E2D746B005D769D /* main.swift in Sources */,
 				119A0B601E2D746B005D769D /* Scanner+Swift.swift in Sources */,
 				119A0B5D1E2D746B005D769D /* Coverage.swift in Sources */,
@@ -238,6 +258,7 @@
 				119A0B3C1E2D719E005D769D /* Scanner+Swift.swift in Sources */,
 				119A0B3A1E2D719E005D769D /* Git.swift in Sources */,
 				119A0B3D1E2D719E005D769D /* ShellHelper.swift in Sources */,
+				119A0BAC1E2EB018005D769D /* Info.swift in Sources */,
 				119A0B391E2D719E005D769D /* Coverage.swift in Sources */,
 				119A0B3B1E2D719E005D769D /* main.swift in Sources */,
 			);
@@ -364,7 +385,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/DiffCoverage/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(SRCROOT)/build_info.plist",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paul-samuels.diff-coverage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -375,7 +404,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/DiffCoverage/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(SRCROOT)/build_info.plist",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paul-samuels.diff-coverage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
