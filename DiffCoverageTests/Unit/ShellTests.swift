@@ -1,5 +1,5 @@
 //
-//  ShellhelperTests.swift
+//  ShellTests.swift
 //  DiffCoverage
 //
 //  Created by Paul Samuels on 15/01/2017.
@@ -8,10 +8,10 @@
 
 import XCTest
 
-class ShellhelperTests: XCTestCase {
+class ShellTests: XCTestCase {
 
     func testItCollectsTheResultsOfInvokingAShellCommand() {
-        if let results = try? shell("/bin/ls", "/bin") {
+        if let results = try? Shell.bash("ls /bin") {
             XCTAssertTrue(results.contains("ls"))
             XCTAssertTrue(results.contains("cat"))
             XCTAssertTrue(results.contains("mkdir"))
@@ -22,8 +22,8 @@ class ShellhelperTests: XCTestCase {
     
     func testItThrowsWhenCommandHasNonZeroExit() {
         do {
-            try shell("/bin/ls", "--unknown-option")
-        } catch ShellError.exitStatus(let code) {
+            try Shell.bash("ls --unknown-option")
+        } catch Shell.ExecutionError.exitStatus(let code) {
             XCTAssertTrue(code != 0)
         } catch {
             XCTFail()

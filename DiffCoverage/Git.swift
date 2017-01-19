@@ -13,13 +13,13 @@ struct Git {
     typealias DiffSet     = [FileName : Set<Int>]
     typealias Line        = String
     typealias FileName    = String
-    typealias InvokerType = (_ launchPath: String, _ arguments: String...) throws -> [String]
+    typealias InvokerType = (_ command: String) throws -> [String]
     typealias SHA         = String
     
     let invoker: InvokerType
     let sourceRoot: String?
     
-    init(invoker: @escaping InvokerType = shell, sourceRoot: String? = nil) {
+    init(invoker: @escaping InvokerType = Shell.bash, sourceRoot: String? = nil) {
         self.invoker    = invoker
         self.sourceRoot = sourceRoot
     }
@@ -67,12 +67,12 @@ private extension Git {
     
     func shas(for range: CommitRange) -> [SHA] {
         //swiftlint:disable:next force_try
-        return try! invoker("/usr/bin/git", "rev-list", range)
+        return try! invoker("git rev-list \(range)")
     }
     
     func filesChanged(in range: CommitRange) -> [FileName] {
         //swiftlint:disable:next force_try
-        return try! invoker("/usr/bin/git", "diff", "--diff-filter=d", "--name-only", range)
+        return try! invoker("git diff --diff-filter=d --name-only \(range)")
     }
     
     func lineInformation(for file: FileName, in SHAs: [String]) -> [LineInfo] {
@@ -103,6 +103,6 @@ private extension Git {
     
     func annotations(for file: FileName) -> [Line] {
         //swiftlint:disable:next force_try
-        return try! invoker("/usr/bin/git", "annotate", "-l", "--porcelain", file)
+        return try! invoker("git annotate -l --porcelain \(file)")
     }
 }

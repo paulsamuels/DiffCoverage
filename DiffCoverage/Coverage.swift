@@ -17,9 +17,9 @@ struct Coverage {
         let keys = Set(fileChanges.keys)
         
         //swiftlint:disable:next force_try
-        let lines = try! shell(
+        let lines = try! Shell.bash(
             //swiftlint:disable:next line_length
-            "/usr/bin/xcrun", "llvm-cov", "show", "-arch", "x86_64", "-instr-profile", profdata, executable
+            "xcrun llvm-cov show -arch x86_64 -instr-profile \(profdata) \(executable)"
             )
         
         var currentFileName: String? = nil

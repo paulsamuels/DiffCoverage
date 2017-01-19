@@ -14,7 +14,7 @@ class GitTests: XCTestCase {
         
         let invocationRecorder = configuredInvocationRecorder()
         
-        let git = Git(invoker: invocationRecorder.shell)
+        let git = Git(invoker: invocationRecorder.bash)
         
         let (lineCount, actual) = git.calculateModifiedLines(for: "abcdef..mnopqr")
         
@@ -39,7 +39,7 @@ class GitTests: XCTestCase {
         /// This command gets all the relevant SHAs
         /// for the commit range
         invocationRecorder.expect(
-            command: "/usr/bin/git rev-list abcdef..mnopqr",
+            command: "git rev-list abcdef..mnopqr",
             result: [
                 "ghijklzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
                 "mnopqrzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
@@ -49,7 +49,7 @@ class GitTests: XCTestCase {
         /// This command gets the files that have been modified
         /// within the commit range
         invocationRecorder.expect(
-            command: "/usr/bin/git diff --diff-filter=d --name-only abcdef..mnopqr",
+            command: "git diff --diff-filter=d --name-only abcdef..mnopqr",
             result: [
                 "SomeProject/Models/Car.swift",
                 "SomeProject/Models/Bike.swift",
@@ -63,7 +63,7 @@ class GitTests: XCTestCase {
         
         //swiftlint:disable line_length
         invocationRecorder.expect(
-            command: "/usr/bin/git annotate -l --porcelain SomeProject/Models/Car.swift",
+            command: "git annotate -l --porcelain SomeProject/Models/Car.swift",
             result: [
                 "ghijklzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 11 11 3",
                 "author Paul Samuels",
@@ -86,7 +86,7 @@ class GitTests: XCTestCase {
         )
         
         invocationRecorder.expect(
-            command: "/usr/bin/git annotate -l --porcelain SomeProject/Models/Bike.swift",
+            command: "git annotate -l --porcelain SomeProject/Models/Bike.swift",
             result: [
                 "ghijklzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 11 11 3",
                 "author Paul Samuels",
@@ -109,7 +109,7 @@ class GitTests: XCTestCase {
         )
         
         invocationRecorder.expect(
-            command: "/usr/bin/git annotate -l --porcelain SomeProject/Models/Boat.swift",
+            command: "git annotate -l --porcelain SomeProject/Models/Boat.swift",
             result: [
                 "notacommitwithintherangeweareinterestedin 11 11 3",
                 "author Paul Samuels",
@@ -148,9 +148,7 @@ class InvocationRecorder {
     }
     
     @discardableResult
-    func shell(_ launchPath: String, _ arguments: String...) throws -> [String] {
-        let command = ([launchPath] + arguments).joined(separator: " ")
-        
+    func bash(_ command: String) throws -> [String] {
         self.invocations.append(command)
         
         guard let index = self.cannedResults.index(where: { $0.command == command }) else {
