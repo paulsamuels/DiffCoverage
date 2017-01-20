@@ -16,6 +16,18 @@ struct Git {
     typealias InvokerType = (_ command: String) throws -> [String]
     typealias SHA         = String
     
+    struct CalculationResult {
+        let changedLinesByFile: DiffSet
+        let files: [String]
+        let lineCount: Int
+        
+        init(changedLinesByFile: DiffSet) {
+            self.changedLinesByFile = changedLinesByFile
+            files     = changedLinesByFile.map { $0.key }
+            lineCount = changedLinesByFile.map({ $0.value.count }).reduce(0, +)
+        }
+    }
+    
     fileprivate let invoker: InvokerType
     fileprivate let fileFilterExecutable: String?
     
@@ -24,7 +36,7 @@ struct Git {
         self.fileFilterExecutable = fileFilterExecutable
     }
     
-    func calculateModifiedLines(for range: CommitRange) -> (lineCount: Int, changes: DiffSet) {
+    func calculateModifiedLines(for range: CommitRange) -> CalculationResult {
         let commitSHAs = shas(for: range)
         
         var changedLinesByFile: DiffSet = [:]
@@ -44,10 +56,7 @@ struct Git {
             }
         }
         
-        return (
-            lineCount: changedLinesByFile.map({ $0.value.count }).reduce(0, +),
-            changes: changedLinesByFile
-        )
+        return CalculationResult(changedLinesByFile: changedLinesByFile)
     }
 }
 

@@ -16,7 +16,7 @@ class GitTests: XCTestCase {
         
         let git = Git(invoker: invocationRecorder.bash)
         
-        let (lineCount, actual) = git.calculateModifiedLines(for: "abcdef..mnopqr")
+        let calulationResult = git.calculateModifiedLines(for: "abcdef..mnopqr")
         
         if invocationRecorder.unexpectedInvocations.count > 0 {
             XCTFail(invocationRecorder.unexpectedInvocations.joined(separator: ", "))
@@ -27,9 +27,8 @@ class GitTests: XCTestCase {
             "SomeProject/Models/Bike.swift" : Set([11, 13, 15]),
             ]
         
-        XCTAssertEqual(expected, actual)
-        XCTAssertEqual(5, lineCount)
-        
+        XCTAssertEqual(expected, calulationResult.changedLinesByFile)
+        XCTAssertEqual(5, calulationResult.lineCount)
     }
     
     //swiftlint:disable function_body_length

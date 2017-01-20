@@ -13,8 +13,8 @@ struct Coverage {
     let profdata: String
     typealias Result = (lineCount: Int, uncoveredChanges: [String : Any])
     
-    func filter(fileChanges: [String : Set<Int>]) -> Result {
-        let keys = Set(fileChanges.keys)
+    func filter(diffCalculation: Git.CalculationResult) -> Result {
+        let keys = Set(diffCalculation.files)
         
         //swiftlint:disable:next force_try
         let lines = try! Shell.bash(
@@ -36,7 +36,7 @@ struct Coverage {
             guard
                 let currentFileName = currentFileName,
                 let newBlock = UncoveredBlock(rawValue: line),
-                fileChanges[currentFileName]?.contains(newBlock.start) == true else {
+                diffCalculation.changedLinesByFile[currentFileName]?.contains(newBlock.start) == true else {
                     return
             }
             
