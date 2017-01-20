@@ -23,18 +23,24 @@ guard
 
 let fileFilterExecutable = defaults.string(forKey: "file-filter-executable")
 
-let (diffDuration, (lineCount, diffSet)) = Info.timed {
+let (diffDuration, diffCalculation) = Info.timed {
     Git(fileFilterExecutable: fileFilterExecutable).calculateModifiedLines(for: commitRange)
 }
 
 let (filterDuration, (uncoveredLineCount, uncoveredBlocks)) = Info.timed {
-    Coverage(executable: executable, profdata: profdata).filter(fileChanges: diffSet)
+    Coverage(executable: executable, profdata: profdata).filter(diffCalculation: diffCalculation)
+}
+
+var coverage = Float(0)
+
+if diffCalculation.lineCount > 0 {
+    coverage = 100 - (Float(100) / Float(diffCalculation.lineCount)) * Float(uncoveredLineCount)
 }
 
 let result: [String : Any] = [
     "stats" : [
-        "coverage" : 100 - (Float(100) / Float(lineCount)) * Float(uncoveredLineCount),
-        "line_count" : lineCount,
+        "coverage" : coverage,
+        "line_count" : diffCalculation.lineCount,
         "untested_line_count" : uncoveredLineCount,
         "diff_duration" : diffDuration,
         "llvm_cov_duration" : filterDuration,
