@@ -11,14 +11,14 @@
 		119A0B3A1E2D719E005D769D /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B351E2D719E005D769D /* Git.swift */; };
 		119A0B3B1E2D719E005D769D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B361E2D719E005D769D /* main.swift */; };
 		119A0B3C1E2D719E005D769D /* Scanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B371E2D719E005D769D /* Scanner+Swift.swift */; };
-		119A0B3D1E2D719E005D769D /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* ShellHelper.swift */; };
+		119A0B3D1E2D719E005D769D /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* Shell.swift */; };
 		119A0B5B1E2D7443005D769D /* GitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B591E2D7443005D769D /* GitTests.swift */; };
-		119A0B5C1E2D7443005D769D /* ShellhelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */; };
+		119A0B5C1E2D7443005D769D /* ShellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B5A1E2D7443005D769D /* ShellTests.swift */; };
 		119A0B5D1E2D746B005D769D /* Coverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B341E2D719E005D769D /* Coverage.swift */; };
 		119A0B5E1E2D746B005D769D /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B351E2D719E005D769D /* Git.swift */; };
 		119A0B5F1E2D746B005D769D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B361E2D719E005D769D /* main.swift */; };
 		119A0B601E2D746B005D769D /* Scanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B371E2D719E005D769D /* Scanner+Swift.swift */; };
-		119A0B611E2D746B005D769D /* ShellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* ShellHelper.swift */; };
+		119A0B611E2D746B005D769D /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0B381E2D719E005D769D /* Shell.swift */; };
 		119A0BAC1E2EB018005D769D /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0BAB1E2EB018005D769D /* Info.swift */; };
 		119A0BAD1E2EB65F005D769D /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A0BAB1E2EB018005D769D /* Info.swift */; };
 /* End PBXBuildFile section */
@@ -40,11 +40,11 @@
 		119A0B351E2D719E005D769D /* Git.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Git.swift; sourceTree = "<group>"; };
 		119A0B361E2D719E005D769D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		119A0B371E2D719E005D769D /* Scanner+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Scanner+Swift.swift"; sourceTree = "<group>"; };
-		119A0B381E2D719E005D769D /* ShellHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellHelper.swift; sourceTree = "<group>"; };
+		119A0B381E2D719E005D769D /* Shell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
 		119A0B501E2D73DF005D769D /* DiffCoverageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiffCoverageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		119A0B541E2D73DF005D769D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		119A0B591E2D7443005D769D /* GitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitTests.swift; sourceTree = "<group>"; };
-		119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellhelperTests.swift; sourceTree = "<group>"; };
+		119A0B5A1E2D7443005D769D /* ShellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShellTests.swift; sourceTree = "<group>"; };
 		119A0BAB1E2EB018005D769D /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		11B90B901E29845C00639D25 /* DiffCoverage */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DiffCoverage; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -80,7 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				119A0B591E2D7443005D769D /* GitTests.swift */,
-				119A0B5A1E2D7443005D769D /* ShellhelperTests.swift */,
+				119A0B5A1E2D7443005D769D /* ShellTests.swift */,
 			);
 			path = Unit;
 			sourceTree = "<group>";
@@ -111,7 +111,7 @@
 				119A0BAB1E2EB018005D769D /* Info.swift */,
 				119A0B361E2D719E005D769D /* main.swift */,
 				119A0B371E2D719E005D769D /* Scanner+Swift.swift */,
-				119A0B381E2D719E005D769D /* ShellHelper.swift */,
+				119A0B381E2D719E005D769D /* Shell.swift */,
 			);
 			path = DiffCoverage;
 			sourceTree = "<group>";
@@ -245,9 +245,9 @@
 				119A0B5F1E2D746B005D769D /* main.swift in Sources */,
 				119A0B601E2D746B005D769D /* Scanner+Swift.swift in Sources */,
 				119A0B5D1E2D746B005D769D /* Coverage.swift in Sources */,
-				119A0B5C1E2D7443005D769D /* ShellhelperTests.swift in Sources */,
+				119A0B5C1E2D7443005D769D /* ShellTests.swift in Sources */,
 				119A0B5B1E2D7443005D769D /* GitTests.swift in Sources */,
-				119A0B611E2D746B005D769D /* ShellHelper.swift in Sources */,
+				119A0B611E2D746B005D769D /* Shell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +257,7 @@
 			files = (
 				119A0B3C1E2D719E005D769D /* Scanner+Swift.swift in Sources */,
 				119A0B3A1E2D719E005D769D /* Git.swift in Sources */,
-				119A0B3D1E2D719E005D769D /* ShellHelper.swift in Sources */,
+				119A0B3D1E2D719E005D769D /* Shell.swift in Sources */,
 				119A0BAC1E2EB018005D769D /* Info.swift in Sources */,
 				119A0B391E2D719E005D769D /* Coverage.swift in Sources */,
 				119A0B3B1E2D719E005D769D /* main.swift in Sources */,
@@ -428,6 +428,7 @@
 				119A0B571E2D73DF005D769D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		11B90B8B1E29845C00639D25 /* Build configuration list for PBXProject "DiffCoverage" */ = {
 			isa = XCConfigurationList;

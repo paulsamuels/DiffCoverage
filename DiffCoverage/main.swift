@@ -15,16 +15,16 @@ guard
     let executable  = defaults.string(forKey: "executable"),
     let profdata    = defaults.string(forKey: "profdata") else {
         let requiredArguments = "-commit-range <sha..sha> -executable <path> -profdata <path>"
-        let optionalArguments = "[-source-root <path>]"
+        let optionalArguments = "[-file-filter-executable <executable>]"
         print("diff-coverage --version: \(Info.gitSHA)")
         print("Usage: diff-coverage \(requiredArguments) \(optionalArguments)")
         exit(EXIT_FAILURE)
 }
 
-let sourceRoot = defaults.string(forKey: "source-root")
+let fileFilterExecutable = defaults.string(forKey: "file-filter-executable")
 
 let (diffDuration, (lineCount, diffSet)) = Info.timed {
-    Git(sourceRoot: sourceRoot).calculateModifiedLines(for: commitRange)
+    Git(fileFilterExecutable: fileFilterExecutable).calculateModifiedLines(for: commitRange)
 }
 
 let (filterDuration, (uncoveredLineCount, uncoveredBlocks)) = Info.timed {
@@ -39,8 +39,8 @@ let result: [String : Any] = [
         "diff_duration" : diffDuration,
         "llvm_cov_duration" : filterDuration,
         "tool_version" : Info.gitSHA,
+        "file_filter_executable" : fileFilterExecutable ?? ""
     ],
-    "scope" : sourceRoot ?? "",
     "data"  : uncoveredBlocks,
 ]
 
