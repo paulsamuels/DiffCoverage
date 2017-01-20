@@ -26,9 +26,10 @@ struct Shell {
         
         let readPipe  = Pipe()
         let writePipe = Pipe()
+        let errorPipe = Pipe()
         task.standardInput  = writePipe
         task.standardOutput = readPipe
-        task.standardError  = FileHandle.nullDevice
+        task.standardError  = errorPipe
         
         let writeHandle = writePipe.fileHandleForWriting
         
@@ -51,6 +52,8 @@ struct Shell {
         task.waitUntilExit()
         
         if task.terminationStatus != 0 {
+            let data = errorPipe.fileHandleForReading.readDataToEndOfFile()
+            FileHandle.standardError.write(data)
             throw Shell.ExecutionError.exitStatus(code: task.terminationStatus)
         }
         
