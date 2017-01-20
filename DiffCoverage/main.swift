@@ -27,20 +27,20 @@ let (diffDuration, diffCalculation) = Info.timed {
     Git(fileFilterExecutable: fileFilterExecutable).calculateModifiedLines(for: commitRange)
 }
 
-let (filterDuration, (uncoveredLineCount, uncoveredBlocks)) = Info.timed {
+let (filterDuration, (executableLineCount, uncoveredLineCount, uncoveredBlocks)) = Info.timed {
     Coverage(executable: executable, profdata: profdata).filter(diffCalculation: diffCalculation)
 }
 
 var coverage = Float(0)
 
-if diffCalculation.lineCount > 0 {
-    coverage = 100 - (Float(100) / Float(diffCalculation.lineCount)) * Float(uncoveredLineCount)
+if executableLineCount > 0 {
+    coverage = 100 - (Float(100) / Float(executableLineCount)) * Float(uncoveredLineCount)
 }
 
 let result: [String : Any] = [
     "stats" : [
         "coverage" : coverage,
-        "line_count" : diffCalculation.lineCount,
+        "line_count" : executableLineCount,
         "untested_line_count" : uncoveredLineCount,
         "diff_duration" : diffDuration,
         "llvm_cov_duration" : filterDuration,

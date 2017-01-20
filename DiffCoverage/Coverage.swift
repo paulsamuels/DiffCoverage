@@ -11,7 +11,7 @@ import Foundation
 struct Coverage {
     let executable: String
     let profdata: String
-    typealias Result = (lineCount: Int, uncoveredChanges: [String : Any])
+    typealias Result = (executableLineCount: Int, lineCount: Int, uncoveredChanges: [String : Any])
     
     func filter(diffCalculation: Git.CalculationResult) -> Result {
         let keys = Set(diffCalculation.files)
@@ -24,6 +24,7 @@ struct Coverage {
         
         var currentFileName: String? = nil
         var uncoveredBlocks: [String : [UncoveredBlock]] = [:]
+        var executableLineCount = 0
         
         lines.forEach { line in
             if line.hasPrefix("/") {
@@ -35,9 +36,15 @@ struct Coverage {
             
             guard
                 let currentFileName = currentFileName,
-                let newBlock = UncoveredBlock(rawValue: line),
-                diffCalculation.changedLinesByFile[currentFileName]?.contains(newBlock.start) == true else {
+                let executableLineNumber = executableLineNumber(line: line),
+                diffCalculation.changedLinesByFile[currentFileName]?.contains(executableLineNumber) == true else {
                     return
+            }
+            
+            executableLineCount += 1
+            
+            guard let newBlock = UncoveredBlock(rawValue: line) else {
+                return
             }
             
             let isMergeable = uncoveredBlocks[currentFileName]?.last.map({
@@ -68,6 +75,7 @@ struct Coverage {
         }
         
         return (
+            executableLineCount: executableLineCount,
             lineCount: lineCount,
             uncoveredChanges: JSONRepresentation
         )
@@ -76,6 +84,22 @@ struct Coverage {
 }
 
 private extension Coverage {
+    func executableLineNumber(line: String) -> Int? {
+        let scanner = Scanner(string: line)
+        
+        guard scanner.scanInt32() != nil else {
+            return nil
+        }
+        
+        scanner.swallow(string: "|")
+        
+        guard let lineNumber = scanner.scanInt32() else {
+            return nil
+        }
+        
+        return Int(lineNumber)
+    }
+    
     struct UncoveredBlock {
         private var _end: Int
         private var _body: String
