@@ -135,7 +135,6 @@ class GitTests: XCTestCase {
         return invocationRecorder
     }
     //swiftlint:enable function_body_length
-    
 }
 
 class InvocationRecorder {

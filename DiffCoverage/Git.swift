@@ -16,12 +16,12 @@ struct Git {
     typealias InvokerType = (_ command: String) throws -> [String]
     typealias SHA         = String
     
-    let invoker: InvokerType
-    let sourceRoot: String?
+    fileprivate let invoker: InvokerType
+    fileprivate let fileFilterExecutable: String?
     
-    init(invoker: @escaping InvokerType = Shell.bash, sourceRoot: String? = nil) {
-        self.invoker    = invoker
-        self.sourceRoot = sourceRoot
+    init(invoker: @escaping InvokerType = Shell.bash, fileFilterExecutable: String? = nil) {
+        self.invoker              = invoker
+        self.fileFilterExecutable = fileFilterExecutable
     }
     
     func calculateModifiedLines(for range: CommitRange) -> (lineCount: Int, changes: DiffSet) {
@@ -29,15 +29,7 @@ struct Git {
         
         var changedLinesByFile: DiffSet = [:]
         
-        let fileNames: [String]
-        
-        if let sourceRoot = sourceRoot {
-            fileNames = filesChanged(in: range).filter({ $0.hasPrefix(sourceRoot) })
-        } else {
-            fileNames = filesChanged(in: range)
-        }
-        
-        fileNames.forEach { fileName in
+        filesChanged(in: range).forEach { fileName in
             let updatedLines = self.lineInformation(for: fileName, in: commitSHAs).map({
                 $0.line
             })
@@ -72,7 +64,20 @@ private extension Git {
     
     func filesChanged(in range: CommitRange) -> [FileName] {
         //swiftlint:disable:next force_try
-        return try! invoker("git diff --diff-filter=d --name-only \(range)")
+        let fileNames = try! self.invoker("git diff --diff-filter=d --name-only \(range)")
+        
+        guard let fileFilterExecutable = fileFilterExecutable else {
+            return fileNames
+        }
+        
+        //swiftlint:disable:next force_try
+        let filteredFiles = try! Shell.bash(fileFilterExecutable, input: Array(fileNames))
+        
+        if filteredFiles.count > 0 && !Set(fileNames).isSuperset(of: filteredFiles) {
+            fatalError("The result of -file-filter-executable must be a subset of the passed files")
+        }
+        
+        return filteredFiles
     }
     
     func lineInformation(for file: FileName, in SHAs: [String]) -> [LineInfo] {
