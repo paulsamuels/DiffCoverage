@@ -19,7 +19,7 @@ struct Coverage {
         //swiftlint:disable:next force_try
         let lines = try! Shell.bash(
             //swiftlint:disable:next line_length
-            "xcrun llvm-cov show -arch x86_64 -instr-profile \(profdata) \(executable)"
+            "xcrun llvm-cov show -arch x86_64 -filename-equivalence -instr-profile \(profdata) \(executable) \(keys.joined(separator: " "))"
             )
         
         var currentFileName: String? = nil
