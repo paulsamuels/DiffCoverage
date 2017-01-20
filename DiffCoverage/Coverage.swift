@@ -11,9 +11,14 @@ import Foundation
 struct Coverage {
     let executable: String
     let profdata: String
-    typealias Result = (executableLineCount: Int, lineCount: Int, uncoveredChanges: [String : Any])
     
-    func filter(diffCalculation: Git.CalculationResult) -> Result {
+    struct CalculationResult {
+        let executableLineCount: Int
+        let untestedLineCount: Int
+        let untestedChanges: [String : Any]
+    }
+    
+    func filter(diffCalculation: Git.CalculationResult) -> CalculationResult {
         let keys = Set(diffCalculation.files)
         
         //swiftlint:disable:next force_try
@@ -23,7 +28,7 @@ struct Coverage {
             )
         
         var currentFileName: String? = nil
-        var uncoveredBlocks: [String : [UncoveredBlock]] = [:]
+        var untestedBlocks: [String : [UntestedBlock]] = [:]
         var executableLineCount = 0
         
         lines.forEach { line in
@@ -43,41 +48,41 @@ struct Coverage {
             
             executableLineCount += 1
             
-            guard let newBlock = UncoveredBlock(rawValue: line) else {
+            guard let newBlock = UntestedBlock(rawValue: line) else {
                 return
             }
             
-            let isMergeable = uncoveredBlocks[currentFileName]?.last.map({
+            let isMergeable = untestedBlocks[currentFileName]?.last.map({
                 $0.end + 1 == newBlock.start
             }) == true
             
-            if isMergeable, let index = uncoveredBlocks[currentFileName]?.endIndex {
-                uncoveredBlocks[currentFileName]?[index - 1].merge(other: newBlock)
+            if isMergeable, let index = untestedBlocks[currentFileName]?.endIndex {
+                untestedBlocks[currentFileName]?[index - 1].merge(other: newBlock)
             } else {
-                var blocks = uncoveredBlocks[currentFileName] ?? []
+                var blocks = untestedBlocks[currentFileName] ?? []
                 blocks.append(newBlock)
-                uncoveredBlocks[currentFileName] = blocks
+                untestedBlocks[currentFileName] = blocks
             }
         }
         
         var JSONRepresentation: [String : Any] = [:]
         
-        uncoveredBlocks.forEach { fileName, uncoveredBlocks in
-            JSONRepresentation[fileName] = uncoveredBlocks.map {
+        untestedBlocks.forEach { fileName, untestedBlocks in
+            JSONRepresentation[fileName] = untestedBlocks.map {
                 [ "start" : $0.start, "end" : $0.end, "body" : $0.body ]
             }
         }
         
-        let lineCount = uncoveredBlocks.flatMap({
+        let untestedLineCount = untestedBlocks.flatMap({
             $0.value
         }).reduce(0) { (accumulator, block) -> Int in
             return accumulator + (block.end - block.start) + 1
         }
         
-        return (
+        return CalculationResult(
             executableLineCount: executableLineCount,
-            lineCount: lineCount,
-            uncoveredChanges: JSONRepresentation
+            untestedLineCount: untestedLineCount,
+            untestedChanges: JSONRepresentation
         )
     }
     
@@ -100,7 +105,7 @@ private extension Coverage {
         return Int(lineNumber)
     }
     
-    struct UncoveredBlock {
+    struct UntestedBlock {
         private var _end: Int
         private var _body: String
         
@@ -137,7 +142,7 @@ private extension Coverage {
             _body = tail
         }
         
-        mutating func merge(other: UncoveredBlock) {
+        mutating func merge(other: UntestedBlock) {
             _end   = other.end
             _body += "\n" + other.body
         }
