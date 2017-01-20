@@ -52,7 +52,7 @@ class GitTests: XCTestCase {
             result: [
                 "SomeProject/Models/Car.swift",
                 "SomeProject/Models/Bike.swift",
-                "SomeProject/Models/Boat.swift"
+                "SomeProject/dir with spaces/Boat.swift"
             ]
         )
         
@@ -62,7 +62,7 @@ class GitTests: XCTestCase {
         
         //swiftlint:disable line_length
         invocationRecorder.expect(
-            command: "git annotate -l --porcelain SomeProject/Models/Car.swift",
+            command: "git annotate -l --porcelain \"SomeProject/Models/Car.swift\"",
             result: [
                 "ghijklzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 11 11 3",
                 "author Paul Samuels",
@@ -85,7 +85,7 @@ class GitTests: XCTestCase {
         )
         
         invocationRecorder.expect(
-            command: "git annotate -l --porcelain SomeProject/Models/Bike.swift",
+            command: "git annotate -l --porcelain \"SomeProject/Models/Bike.swift\"",
             result: [
                 "ghijklzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 11 11 3",
                 "author Paul Samuels",
@@ -108,7 +108,7 @@ class GitTests: XCTestCase {
         )
         
         invocationRecorder.expect(
-            command: "git annotate -l --porcelain SomeProject/Models/Boat.swift",
+            command: "git annotate -l --porcelain \"SomeProject/dir with spaces/Boat.swift\"",
             result: [
                 "notacommitwithintherangeweareinterestedin 11 11 3",
                 "author Paul Samuels",
@@ -121,7 +121,7 @@ class GitTests: XCTestCase {
                 "committer-tz +0000",
                 "summary Initial Commit",
                 "boundary",
-                "SomeProject/Models/Boat.swift",
+                "SomeProject/dir with spaces/Boat.swift",
                 "\tstruct Boat {",
                 "ghijknotacommitwithintherangeweareinterestedinlzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 13 13",
                 "\t    let make: String",

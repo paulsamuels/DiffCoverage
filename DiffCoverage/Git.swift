@@ -116,7 +116,6 @@ private extension Git {
     }
     
     func annotations(for file: FileName) -> [Line] {
-        //swiftlint:disable:next force_try
-        return try! invoker("git annotate -l --porcelain \(file)")
+        return (try? invoker("git annotate -l --porcelain \"\(file)\"")) ?? []
     }
 }
